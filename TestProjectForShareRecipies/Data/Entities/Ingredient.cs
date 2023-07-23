@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestProjectForShareRecipies.Data.Entities
 {
-    public class Product
+    public class Ingredient
     {
         [Key]
         public int Id { get; init; }
@@ -17,14 +17,10 @@ namespace TestProjectForShareRecipies.Data.Entities
 
         [ForeignKey(nameof(MeassureUnit))]
         public int MeassureUnitId { get; set; }
-
-        [Required]
         public MeassureUnit MeassureUnit { get; set; } = null!;
 
-        [ForeignKey(nameof(Category))]
-        public int CategoryId { get; set; }
-
-        [Required]
-        public Category Category { get; set; } = null!;
+        [ForeignKey(nameof(Recipe))]
+        public int RecipeId { get; set; }
+        public Recipe Recipe { get; set; } = null!;
     }
 }

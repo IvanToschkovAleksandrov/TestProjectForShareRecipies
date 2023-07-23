@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static TestProjectForShareRecipies.Data.DataConstants;
 
 namespace TestProjectForShareRecipies.Data.Entities
@@ -18,10 +19,19 @@ namespace TestProjectForShareRecipies.Data.Entities
 
         public string? Desctiption { get; set; }
 
-        [Required]
-        public ICollection<Product> Products { get; set; } = new List<Product>();
+        [ForeignKey(nameof(Category))]
+        public int CategoryId { get; set; }
 
         [Required]
-        public IdentityUser Author { get; set; } = null!;
+        public Category Category { get; set; } = null!;
+
+        [Required]
+        public ICollection<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+
+        [Required]
+        [ForeignKey(nameof(Author))]
+        public string AuthorId { get; set; } = null!;
+        [Required]
+        public ApplicationUser Author { get; set; } = null!;
     }
 }

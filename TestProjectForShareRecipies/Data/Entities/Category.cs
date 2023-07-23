@@ -12,5 +12,7 @@ namespace TestProjectForShareRecipies.Data.Entities
         [StringLength(CategoryNameMaxLength)]
         public string Name { get; set; } = null!;
 
+        [Required]
+        public string Picture { get; set; } = null!;
     }
 }
