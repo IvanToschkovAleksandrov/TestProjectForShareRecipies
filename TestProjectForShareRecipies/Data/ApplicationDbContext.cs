@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TestProjectForShareRecipies.Data.Configurations;
 using TestProjectForShareRecipies.Data.Entities;
@@ -20,12 +21,14 @@ namespace TestProjectForShareRecipies.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
             builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
             builder.ApplyConfiguration(new MeassureUnitConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new RecipesConfiguration());
             builder.ApplyConfiguration(new IngredientConfiguration());
+
             
             base.OnModelCreating(builder);
         }
