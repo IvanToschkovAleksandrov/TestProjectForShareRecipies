@@ -1,0 +1,80 @@
+﻿@model RecipeFormModel
+
+@{
+    ViewBag.Title = "Add Recipe";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="Name..." />
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture"></label>
+                <input asp-for="Picture" class="form-control" placeholder="Your fine URL here..." />
+                <span asp-validation-for="Picture" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" placeholder="Write your descripton here..." />
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in Model.Categories){
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+
+            <!--TODO: Here we must to add dinamic field for ingredients-->
+            <div id="ingredientsContainer">
+                <input class="btn btn-primary mt-3" type="button" value="Add Ingredient" onclick="AddIngredient()"/>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function AddIngredient() {
+        var container = document.getElementById("ingredientsContainer");
+        var ingredientDiv = document.createElement("div");
+        ingredientDiv.classList.add("ingredient");
+
+        ingredientDiv.innerHTML = `
+        <input type="text" name="Ingredients.Name" placeholder="Ingredient Name" required />
+        <input type="text" name="Ingredients.Quantity" placeholder="Quantity" step="0.001" required />
+        <select type="text" name="Ingredients.MeassureUnits">
+        @foreach (var meassureUnit in Model.MeassureUnits){
+            <option value="@meassureUnit.Id">@meassureUnit.Name</option>
+        }
+        <span asp-validation-for="MeassureUnitId" class="small text-danger"></span>
+        </select>
+        <button type="button" onclick="removeIngredient(this)">Remove</button>
+        `;
+
+        container.appendChild(ingredientDiv);
+    }
+
+    function removeIngredient(button) {
+        var ingredientDiv = button.parentElement;
+        ingredientDiv.remove();
+    }
+</script>
+
+@section Scripts{
+        <partial name="_ValidationScriptsPartial" />
+}
