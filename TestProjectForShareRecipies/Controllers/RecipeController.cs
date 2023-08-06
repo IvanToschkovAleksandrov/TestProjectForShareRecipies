@@ -6,7 +6,7 @@ using TestProjectForShareRecipies.Services.Recipe;
 
 namespace TestProjectForShareRecipies.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class RecipeController : Controller
     {
         private readonly IRecipeService recipeService;
@@ -28,7 +28,6 @@ namespace TestProjectForShareRecipies.Controllers
         {
             var model = new RecipeFormModel();
 
-            //We have to load all Categories from the DataBase and put in the RecipeFormModel
             model.Categories = await recipeService.AllCategoriesAsync();
             model.MeassureUnits = await recipeService.AllMeassureUnitsAsync();
 

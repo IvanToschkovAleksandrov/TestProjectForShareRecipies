@@ -45,6 +45,14 @@ namespace TestProjectForShareRecipies.Services.Recipe
                 Picture = model.Picture,
                 Desctiption = model.Description,
                 CategoryId = model.CategoryId,
+                Ingredients = model.Ingredients.Select(i => new Data.Entities.Ingredient
+                {
+                    Name = i.Name,
+                    Quantity = i.Quantity,
+                    MeassureUnitId = i.MeassureUnitId
+                })
+                .ToList(),
+                
             };
 
             await context.Recipes.AddAsync(recipe);

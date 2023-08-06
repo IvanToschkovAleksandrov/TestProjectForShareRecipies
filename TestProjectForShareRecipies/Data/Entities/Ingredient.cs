@@ -13,7 +13,7 @@ namespace TestProjectForShareRecipies.Data.Entities
 
         [Column(TypeName = "decimal(8,3)")]
         [Range(0, 99999.999, ErrorMessage = "The quantity must be a value with range 0 to 99999.999!")]
-        public double Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [ForeignKey(nameof(MeassureUnit))]
         public int MeassureUnitId { get; set; }
