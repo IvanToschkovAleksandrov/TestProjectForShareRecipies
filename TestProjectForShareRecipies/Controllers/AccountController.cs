@@ -90,6 +90,7 @@ namespace TestProjectForShareRecipies.Controllers
         public async Task<IActionResult> Loguout()
         {
             await signInManager.SignOutAsync();
+            
 
             return RedirectToAction("Index", "Home");
         }

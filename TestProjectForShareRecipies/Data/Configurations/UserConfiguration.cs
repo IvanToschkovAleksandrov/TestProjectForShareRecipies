@@ -24,9 +24,12 @@ namespace TestProjectForShareRecipies.Data.Configurations
                 FirstName = "Ivan",
                 LastName = "Aleksandrov",
                 Email = "ivan.aleksandrov@gmail.com",
+                NormalizedEmail = "IVAN.ALEKSANDROV@GMAIL.COM",
+                UserName = "ivan.aleksandrov@gmail.com",
+                NormalizedUserName = "IVAN.ALEKSANDROV@GMAIL.COM"
             };
 
-            user.PasswordHash = hasher.HashPassword(user, "ivan13");
+            user.PasswordHash = hasher.HashPassword(user, "Ivan13");
             users.Add(user);
 
             user = new ApplicationUser()
@@ -34,10 +37,13 @@ namespace TestProjectForShareRecipies.Data.Configurations
                 Id = "d5ab93a3-c7cf-4328-80f4-705121dfe864",
                 FirstName = "Petar",
                 LastName = "Petrov",
-                Email = "petar.petrov@gmail.com"
+                Email = "petar.petrov@gmail.com",
+                NormalizedEmail = "PETAR.PETROV@GMAIL.COM",
+                UserName = "petar.petrov@gmail.com",
+                NormalizedUserName = "PETAR.PETROV@GMAIL.COM"
             };
 
-            user.PasswordHash = hasher.HashPassword(user, "petar13");
+            user.PasswordHash = hasher.HashPassword(user, "Petar13");
             users.Add(user);
 
             return users;
