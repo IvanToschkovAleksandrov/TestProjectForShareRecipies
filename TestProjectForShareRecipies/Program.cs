@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using TestProjectForShareRecipies.Data;
 using TestProjectForShareRecipies.Data.Entities;
+using TestProjectForShareRecipies.Services.Home;
 using TestProjectForShareRecipies.Services.Recipe;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IRecipeService, RecipeService>();
+builder.Services.AddScoped<IHomeService, HomeService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {

@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Add Recipe";
+    var ingredients = Model.Ingredients.ToList();
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -36,12 +37,27 @@
             </div>
 
             <!--TODO: Here we must to add dinamic field for ingredients-->
+
             <div id="ingredientsContainer">
-                <input class="btn btn-primary mt-3" type="button" value="Add Ingredient" onclick="AddIngredient()"/>
+                <h5>
+                    Ingredients:
+                </h5>
+                <ul id="ingredient-list" class="list-unstyled">
+                     
+                </ul>
+                <input type="text" id="ingredient-name" class="form-control" placeholder="Ingredient name" required/>
+                <input type="number" id="ingredient-quantity" class="form-control" placeholder="Quantity" step="0.01" required />
+                <select class="form-control" id="ingredient-meassureUnit">
+                     @foreach (var meassureUnit in Model.MeassureUnits)
+                     {
+                         <option value="@meassureUnit.Id">@meassureUnit.Name</option>
+                     }
+                </select>
+                <input type="button" id="add-ingredient" value="Add Ingredient" onclick="AddIngredient()"/>
             </div>
 
-            <div class="text-center">
-                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            <div class="form-group">
+                <input class="btn btn-primary mt-3 form-control" type="submit" value="Save Recipe" />
             </div>
         </form>
 
@@ -50,28 +66,24 @@
 
 <script>
     function AddIngredient() {
-        var container = document.getElementById("ingredientsContainer");
-        var ingredientDiv = document.createElement("div");
-        ingredientDiv.classList.add("ingredient");
+        const ulElement = document.getElementById("ingredient-list");
+        let name = document.getElementById("ingredient-name");
+        let quantity = document.getElementById("ingredient-quantity");
+        let meassureUnit = document.getElementById("ingredient-meassureUnit");
+        let selectedIndex = meassureUnit.selectedIndex;
+        let selectedOptions = meassureUnit.options[selectedIndex];
 
-        ingredientDiv.innerHTML = `
-        <input type="text" name="Ingredients.Name" placeholder="Ingredient Name" required />
-        <input type="text" name="Ingredients.Quantity" placeholder="Quantity" step="0.001" required />
-        <select type="text" name="Ingredients.MeassureUnits">
-        @foreach (var meassureUnit in Model.MeassureUnits){
-            <option value="@meassureUnit.Id">@meassureUnit.Name</option>
-        }
-        <span asp-validation-for="MeassureUnitId" class="small text-danger"></span>
-        </select>
-        <button type="button" onclick="removeIngredient(this)">Remove</button>
-        `;
+        let arr = [name.value, quantity.value, selectedOptions.textContent];
 
-        container.appendChild(ingredientDiv);
-    }
+        let liElement = document.createElement("li");
+        liElement.textContent = arr.join(" ");
+        
+        ulElement.appendChild(liElement);
 
-    function removeIngredient(button) {
-        var ingredientDiv = button.parentElement;
-        ingredientDiv.remove();
+        name.value = "";
+        quantity.value = "";
+        meassureUnit.selectedIndex = 0;
+
     }
 </script>
 

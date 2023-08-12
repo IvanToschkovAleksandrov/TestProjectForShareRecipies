@@ -17,6 +17,8 @@ namespace TestProjectForShareRecipies.Models.Recipe
         //[Display(Name = "Category")]
         public int CategoryId { get; set; }
 
+        public string AuthorId { get; set; } = null!;
+
         public IEnumerable<AllCategoriesModel> Categories { get; set; } = new List<AllCategoriesModel>();
 
         public IEnumerable<IngredientsFormModel> Ingredients { get; set; } = new List<IngredientsFormModel>();

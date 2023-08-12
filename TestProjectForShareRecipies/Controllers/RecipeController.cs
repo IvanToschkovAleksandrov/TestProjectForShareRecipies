@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TestProjectForShareRecipies.Data.Entities;
+using TestProjectForShareRecipies.Infrastructure;
 using TestProjectForShareRecipies.Models.Recipe;
 using TestProjectForShareRecipies.Services.Recipe;
 
@@ -11,7 +11,7 @@ namespace TestProjectForShareRecipies.Controllers
     {
         private readonly IRecipeService recipeService;
 
-        public RecipeController(IRecipeService recipeService)
+        public RecipeController(IRecipeService recipeService) 
         {
             this.recipeService = recipeService;
         }
@@ -23,6 +23,12 @@ namespace TestProjectForShareRecipies.Controllers
             return View();
         }
 
+        //public async Task<IActionResult> Details(int recipeId)
+        //{
+
+        //    return View();
+        //}
+
         [HttpGet]
         public async Task<IActionResult> AddRecipe()
         {
@@ -30,6 +36,7 @@ namespace TestProjectForShareRecipies.Controllers
 
             model.Categories = await recipeService.AllCategoriesAsync();
             model.MeassureUnits = await recipeService.AllMeassureUnitsAsync();
+            model.AuthorId = User.Id();
 
             return View(model);
         }
@@ -37,6 +44,7 @@ namespace TestProjectForShareRecipies.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRecipe(RecipeFormModel model)
         {
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
