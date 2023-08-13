@@ -42,8 +42,8 @@
                 <h5>
                     Ingredients:
                 </h5>
-                <ul id="ingredient-list" class="list-unstyled">
-                     
+                <ul id="ingredient-list" class="list-group list-group-flush">
+
                 </ul>
                 <input type="text" id="ingredient-name" class="form-control" placeholder="Ingredient name" required/>
                 <input type="number" id="ingredient-quantity" class="form-control" placeholder="Quantity" step="0.01" required />
@@ -70,20 +70,35 @@
         let name = document.getElementById("ingredient-name");
         let quantity = document.getElementById("ingredient-quantity");
         let meassureUnit = document.getElementById("ingredient-meassureUnit");
+
         let selectedIndex = meassureUnit.selectedIndex;
         let selectedOptions = meassureUnit.options[selectedIndex];
 
-        let arr = [name.value, quantity.value, selectedOptions.textContent];
+        let arr = [name.value.toUpperCase(), quantity.value, selectedOptions.textContent];
 
         let liElement = document.createElement("li");
+        liElement.classList.add("list-group-item");
+        liElement.style.display = "flex";
+        liElement.style.justifyContent = "space-between";
         liElement.textContent = arr.join(" ");
         
-        ulElement.appendChild(liElement);
+        let deleteButton = document.createElement("button");
+        deleteButton.classList.add("btn");
+        deleteButton.classList.add("btn-danger");
+        deleteButton.classList.add("btn-sm");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => { liElement.remove() });
 
-        name.value = "";
-        quantity.value = "";
-        meassureUnit.selectedIndex = 0;
+        liElement.appendChild(deleteButton);
 
+        if (name.value !== "" && quantity.value !== "") {
+            ulElement.appendChild(liElement);
+            name.value = "";
+            quantity.value = "";
+            meassureUnit.selectedIndex = 0;
+        }
+
+        
     }
 </script>
 
