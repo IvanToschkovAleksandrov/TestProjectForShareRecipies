@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Data;
+using System.Text.RegularExpressions;
 using TestProjectForShareRecipies.Data;
+using TestProjectForShareRecipies.Data.Entities;
 using TestProjectForShareRecipies.Models.Recipe;
 
 namespace TestProjectForShareRecipies.Services.Recipe
@@ -39,6 +43,35 @@ namespace TestProjectForShareRecipies.Services.Recipe
 
         public async Task CreateAsync(RecipeFormModel model)
         {
+            var ingredients = new List<Ingredient>();
+            string[] modelIngredients = JsonConvert.DeserializeObject<string[]>(model.Ingredients);
+
+            foreach (string ingredientAsString in modelIngredients)
+            {
+                string result = ingredientAsString.Substring(0, ingredientAsString.Length - 6);
+                var arrResult = result.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                Stack<string> newStack = new Stack<string>();
+
+                foreach(var item in arrResult)
+                {
+                    newStack.Push(item);
+                }
+
+                var meassureUnit = await context.MeassureUnits.FirstAsync(mu => mu.Name == newStack.Pop());
+                var quantity = decimal.Parse(newStack.Pop());
+                var name = string.Join(" ", newStack);
+
+                var ingredient = new Ingredient()
+                {
+                    Name = name,
+                    Quantity = quantity,
+                    MeassureUnitId = meassureUnit.Id
+                };
+
+                ingredients.Add(ingredient);
+            }
+            
             var recipe = new Data.Entities.Recipe()
             {
                 Name = model.Name,
@@ -46,14 +79,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
                 Desctiption = model.Description,
                 CategoryId = model.CategoryId,
                 AuthorId = model.AuthorId,
-                Ingredients = model.Ingredients.Select(i => new Data.Entities.Ingredient
-                {
-                    Name = i.Name,
-                    Quantity = i.Quantity,
-                    MeassureUnitId = i.MeassureUnitId
-                })
-                .ToList(),
-                
+                Ingredients = ingredients
             };
 
             await context.Recipes.AddAsync(recipe);

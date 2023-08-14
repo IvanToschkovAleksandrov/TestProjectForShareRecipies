@@ -5,7 +5,7 @@ namespace TestProjectForShareRecipies.Models.Recipe
 {
     public class RecipeFormModel
     {
-        [Required]
+        [Required(ErrorMessage = "Трябва да пишеш нещо!")]
         [StringLength(RecipieNameMaxLength, MinimumLength = RecipieNameMinLength)]
         public string Name { get; set; } = null!;
 
@@ -14,14 +14,14 @@ namespace TestProjectForShareRecipies.Models.Recipe
 
         public string? Description { get; set; }
 
-        //[Display(Name = "Category")]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         public string AuthorId { get; set; } = null!;
 
         public IEnumerable<AllCategoriesModel> Categories { get; set; } = new List<AllCategoriesModel>();
 
-        public IEnumerable<IngredientsFormModel> Ingredients { get; set; } = new List<IngredientsFormModel>();
+        public string Ingredients { get; set; } = null!;
 
         public IEnumerable<MeassureUnitsModel> MeassureUnits { get; set; } = new List<MeassureUnitsModel>();
     }
