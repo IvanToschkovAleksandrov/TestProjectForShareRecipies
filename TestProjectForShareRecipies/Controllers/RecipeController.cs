@@ -18,9 +18,21 @@ namespace TestProjectForShareRecipies.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult AllRecipes()
+        public async Task<IActionResult> AllRecipes([FromQuery]AllRecipesQueryModel query)
         {
-            return View();
+            var model = await recipeService.AllRecipesAsync(
+                query.Category,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                AllRecipesQueryModel.RecipesPerPage);
+
+            query.TotalRecipesCount = model.TotalRecipesCount;
+            query.Recipes = model.Recipes;
+
+            query.Categories = await recipeService.AllCategoriesNamesAsync(); 
+
+            return View(query);
         }
 
         //public async Task<IActionResult> Details(int recipeId)

@@ -29,6 +29,11 @@ namespace TestProjectForShareRecipies.Services.Recipe
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<string>> AllCategoriesNamesAsync()
+        {
+            return await context.Categories.Select(c => c.Name).ToListAsync();
+        }
+
         public async Task<IEnumerable<MeassureUnitsModel>> AllMeassureUnitsAsync()
         {
             return await context
@@ -39,6 +44,55 @@ namespace TestProjectForShareRecipies.Services.Recipe
                     Name = mu.Name
                 })
                 .ToListAsync();
+        }
+
+        public async Task<RecipeQueryServiceModel> AllRecipesAsync(
+            string? category = null, 
+            string? searchTerm = null, 
+            RecipeSorting sorting = RecipeSorting.Newest,
+            int currentPage = 1, 
+            int recipePerPage = 1)
+        {
+            var recipesQuery = context.Recipes.AsQueryable();
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                recipesQuery = context.Recipes
+                    .Where(r => r.Category.Name == category);
+            }
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                recipesQuery = context.Recipes
+                    .Where(r => r.Name.ToLower().Contains(searchTerm.ToLower()));
+            }
+
+            recipesQuery = sorting switch
+            {
+                RecipeSorting.Alphabetically => recipesQuery.OrderBy(r => r.Name),
+                _=> recipesQuery.OrderByDescending(r => r.Id)
+            };
+
+            var recipes = await recipesQuery
+                .Skip((currentPage - 1) * recipePerPage)
+                .Take(recipePerPage)
+                .Select(r => new RecipeServiceModel()
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    Description = r.Desctiption,
+                    Picture = r.Picture
+                })
+                .ToListAsync();
+            
+            int totalRecipes = recipesQuery.Count();
+
+            return new RecipeQueryServiceModel()
+            {
+                Recipes = recipes,
+                TotalRecipesCount = totalRecipes
+            };
+
         }
 
         public async Task CreateAsync(RecipeFormModel model)
