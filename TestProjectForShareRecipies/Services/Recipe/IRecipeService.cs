@@ -1,4 +1,5 @@
-﻿using TestProjectForShareRecipies.Models.Recipe;
+﻿using TestProjectForShareRecipies.Data.Entities;
+using TestProjectForShareRecipies.Models.Recipe;
 
 namespace TestProjectForShareRecipies.Services.Recipe
 {
@@ -24,5 +25,11 @@ namespace TestProjectForShareRecipies.Services.Recipe
         Task<RecipeDetailsModel> RecipeDetailsByIdAsync(int id);
 
         Task DeleteAsync(int id);
+
+        Task<bool> IsTheOwnerOfTheRecipe(int recipeId, string userId);
+
+        Task<Category> GetCategoryByNameAsync(string name);
+
+        Task EditRecipeAsync(RecipeFormModel model, int id);
     }
 }

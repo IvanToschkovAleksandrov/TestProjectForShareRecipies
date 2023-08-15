@@ -1,0 +1,147 @@
+﻿@using Newtonsoft.Json
+@model RecipeFormModel
+
+@{
+    ViewBag.Title = "Edit Recipe";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" placeholder="@Model.Name" />
+                <span asp-validation-for="Name" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Picture"></label>
+                <input asp-for="Picture" class="form-control" placeholder="@Model.Picture" />
+                <span asp-validation-for="Picture" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <input asp-for="Description" class="form-control" placeholder="@Model.Description" />
+                <span asp-validation-for="Description" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    @foreach (var category in Model.Categories)
+                    {
+                        if(category.Id == Model.CategoryId)
+                        {
+                            <option value="@category.Id" selected>@category.Name</option>
+                        }   
+                        else 
+                        {
+                            <option value="@category.Id">@category.Name</option>
+                        };
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="small text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="AuthorId" />
+            <!--TODO: Here we must to add dinamic field for ingredients-->
+            <input type="hidden" asp-for="Ingredients" id="Ingredients" />
+            <div id="ingredientsContainer">
+                <h5>
+                    Ingredients:
+                </h5>
+                <ul id="ingredient-list" class="list-group list-group-flush">
+                    @if (Model.Ingredients != null) 
+                    {
+                        var ingredients = JsonConvert.DeserializeObject<string[]>(Model.Ingredients);
+                        foreach(var ingredient in ingredients) 
+                        {
+                            var tokens = ingredient.Split(" ");
+                            var name = tokens[0];
+                            var quantity = tokens[1];
+                            var meassureUnit = tokens[2];
+                            <li class="list-group-item" style="display:flex; justify-content:space-between">
+                                 @name @quantity @meassureUnit<button class="btn btn-danger btn-sm" onclick="this.parentElement.remove()">Delete</button>
+                             </li>
+                        }
+                    }
+                </ul>
+                <input type="text" id="ingredient-name" class="form-control" placeholder="Ingredient name"/>
+                <input type="number" id="ingredient-quantity" class="form-control" placeholder="Quantity" step="0.01"/>
+                <select class="form-control" id="ingredient-meassureUnit">
+                    @foreach (var meassureUnit in Model.MeassureUnits)
+                    {
+                             <option value="@meassureUnit.Id">@meassureUnit.Name</option>
+                    }
+                </select>
+                <input type="button" id="add-ingredient" value="Add Ingredient" onclick="AddIngredient()"/>
+            </div>
+
+            <div class="form-group">
+                <input class="btn btn-primary mt-3 form-control" type="submit" value="Save Recipe" />
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function updateIngredientsInput() {
+        const ulElement = document.getElementById("ingredient-list");
+        const ingredientsInput = document.getElementById("Ingredients");
+
+        const ingredients = Array.from(ulElement.children)
+            .map(li => li.textContent.trim())
+            .filter(ingredient => ingredient !== "");
+
+        ingredientsInput.value = JSON.stringify(ingredients);
+    }
+
+    function AddIngredient() {
+        const ulElement = document.getElementById("ingredient-list");
+        let name = document.getElementById("ingredient-name");
+        let quantity = document.getElementById("ingredient-quantity");
+        let meassureUnit = document.getElementById("ingredient-meassureUnit");
+
+        let selectedIndex = meassureUnit.selectedIndex;
+        let selectedOptions = meassureUnit.options[selectedIndex];
+
+        let arr = [name.value.toUpperCase(), quantity.value, selectedOptions.textContent];
+
+        let liElement = document.createElement("li");
+        liElement.classList.add("list-group-item");
+        liElement.style.display = "flex";
+        liElement.style.justifyContent = "space-between";
+        liElement.textContent = arr.join(" ");
+
+        let deleteButton = document.createElement("button");
+        deleteButton.classList.add("btn");
+        deleteButton.classList.add("btn-danger");
+        deleteButton.classList.add("btn-sm");
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", () => { liElement.remove() });
+
+        liElement.appendChild(deleteButton);
+
+        if (name.value !== "" && quantity.value !== "") {
+            ulElement.appendChild(liElement);
+            name.value = "";
+            quantity.value = "";
+            meassureUnit.selectedIndex = 0;
+            updateIngredientsInput();
+            name.focus();
+        }
+
+    }
+
+    document.addEventListener("click", function (event) {
+        if (event.target && event.target.classList.contains("delete-ingredient")) {
+            event.target.parentElement.remove();
+            updateIngredientsInput(); // Update the hidden input field
+        }
+    });
+</script>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

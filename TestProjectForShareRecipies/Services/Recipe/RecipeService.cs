@@ -97,35 +97,6 @@ namespace TestProjectForShareRecipies.Services.Recipe
 
         public async Task CreateAsync(RecipeFormModel model)
         {
-            var ingredients = new List<Ingredient>();
-            string[] modelIngredients = JsonConvert.DeserializeObject<string[]>(model.Ingredients);
-
-            foreach (string ingredientAsString in modelIngredients)
-            {
-                string result = ingredientAsString.Substring(0, ingredientAsString.Length - 6);
-                var arrResult = result.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-                Stack<string> newStack = new Stack<string>();
-
-                foreach(var item in arrResult)
-                {
-                    newStack.Push(item);
-                }
-
-                var meassureUnit = await context.MeassureUnits.FirstAsync(mu => mu.Name == newStack.Pop());
-                var quantity = decimal.Parse(newStack.Pop());
-                var name = string.Join(" ", newStack);
-
-                var ingredient = new Ingredient()
-                {
-                    Name = name,
-                    Quantity = quantity,
-                    MeassureUnitId = meassureUnit.Id
-                };
-
-                ingredients.Add(ingredient);
-            }
-            
             var recipe = new Data.Entities.Recipe()
             {
                 Name = model.Name,
@@ -133,7 +104,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
                 Desctiption = model.Description,
                 CategoryId = model.CategoryId,
                 AuthorId = model.AuthorId,
-                Ingredients = ingredients
+                Ingredients = await DeserializeIngredientsStringAsync(model.Ingredients)
             };
 
             await context.Recipes.AddAsync(recipe);
@@ -152,9 +123,34 @@ namespace TestProjectForShareRecipies.Services.Recipe
             
         }
 
+        public async Task EditRecipeAsync(RecipeFormModel model, int id)
+        {
+            var recipe = await context.Recipes.FirstAsync(r => r.Id == id);
+
+            recipe.Name = model.Name;
+            recipe.Picture = model.Picture;
+            recipe.Desctiption = model.Description;
+            recipe.CategoryId = model.CategoryId;
+            recipe.Ingredients = await DeserializeIngredientsStringAsync(model.Ingredients);
+
+            await context.SaveChangesAsync();
+        }
+
         public async Task<bool> ExistRecipeAsync(int id)
         {
             return await context.Recipes.AnyAsync(r => r.Id == id);
+        }
+
+        public async Task<Category> GetCategoryByNameAsync(string name)
+        {
+            return await context.Categories.FirstAsync(c => c.Name == name);
+        }
+
+        public async Task<bool> IsTheOwnerOfTheRecipe(int recipeId, string userId)
+        {
+            var recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == recipeId);
+
+            return recipe != null && recipe.AuthorId == userId;
         }
 
         public async Task<RecipeDetailsModel> RecipeDetailsByIdAsync(int id)
@@ -168,6 +164,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
                     Picture = r.Picture,
                     Description = r.Desctiption,
                     Author = string.Join(" ", new[] { r.Author.FirstName, r.Author.LastName } ),
+                    Category = r.Category.Name,
 
                     //Can we just create here a new IngredientDetailsModel :
                     //Ingredients = new IngredientDetailsModel()
@@ -187,6 +184,40 @@ namespace TestProjectForShareRecipies.Services.Recipe
                 })
                 .FirstAsync();
             return model;
+        }
+
+        private async Task<List<Ingredient>> DeserializeIngredientsStringAsync(string jsonIngredients)
+        {
+            var ingredients = new List<Ingredient>();
+            string[] modelIngredients = JsonConvert.DeserializeObject<string[]>(jsonIngredients);
+
+            foreach (string ingredientAsString in modelIngredients)
+            {
+                string result = ingredientAsString.Substring(0, ingredientAsString.Length - 6);
+                var arrResult = result.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                Stack<string> newStack = new Stack<string>();
+
+                foreach (var item in arrResult)
+                {
+                    newStack.Push(item);
+                }
+
+                var meassureUnit = await context.MeassureUnits.FirstAsync(mu => mu.Name == newStack.Pop());
+                var quantity = decimal.Parse(newStack.Pop());
+                var name = string.Join(" ", newStack);
+
+                var ingredient = new Ingredient()
+                {
+                    Name = name,
+                    Quantity = quantity,
+                    MeassureUnitId = meassureUnit.Id
+                };
+
+                ingredients.Add(ingredient);
+            }
+
+            return ingredients;
         }
     }
 }
