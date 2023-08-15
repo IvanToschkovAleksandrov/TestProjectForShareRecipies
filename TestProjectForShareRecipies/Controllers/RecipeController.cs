@@ -75,12 +75,26 @@ namespace TestProjectForShareRecipies.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditRecipe()
+        public IActionResult EditRecipe(int id)
         {
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> Delete(int id)
+        {
+            if (!await recipeService.ExistRecipeAsync(id))
+            {
+                return BadRequest();
+            }
+
+            var model = await recipeService.RecipeDetailsByIdAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(RecipeDetailsModel model, int id)
         {
             if (!await recipeService.ExistRecipeAsync(id))
             {
@@ -91,7 +105,5 @@ namespace TestProjectForShareRecipies.Controllers
 
             return RedirectToAction(nameof(AllRecipes));
         }
-
-
     }
 }
