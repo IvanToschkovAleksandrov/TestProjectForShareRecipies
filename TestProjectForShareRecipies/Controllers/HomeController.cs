@@ -18,5 +18,16 @@ namespace TestProjectForShareRecipies.Controllers
 
             return View(model);
         }
+
+        public IActionResult Error(int statusCode)
+        {
+            ViewData["StatusCode"] = statusCode;
+
+            if (statusCode == 400 || statusCode == 401)
+            {
+                return View($"Error{statusCode}");
+            }
+            return View();
+        }
     }
 }

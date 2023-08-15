@@ -36,6 +36,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
 
 if (app.Environment.IsDevelopment())
 {
@@ -44,6 +45,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
+    
     app.UseHsts();
 }
 
