@@ -140,6 +140,18 @@ namespace TestProjectForShareRecipies.Services.Recipe
             await context.SaveChangesAsync();
         }
 
+        public async Task DeleteAsync(int id)
+        {
+            var recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+
+            if(recipe != null)
+            {
+                context.Recipes.Remove(recipe);
+                await context.SaveChangesAsync();
+            }
+            
+        }
+
         public async Task<bool> ExistRecipeAsync(int id)
         {
             return await context.Recipes.AnyAsync(r => r.Id == id);

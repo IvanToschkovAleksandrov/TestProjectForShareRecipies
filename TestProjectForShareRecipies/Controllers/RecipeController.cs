@@ -80,9 +80,16 @@ namespace TestProjectForShareRecipies.Controllers
             return View();
         }
 
-        public IActionResult DeleteRecipe()
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            if (!await recipeService.ExistRecipeAsync(id))
+            {
+                return BadRequest();
+            }
+
+            await recipeService.DeleteAsync(id);
+
+            return RedirectToAction(nameof(AllRecipes));
         }
 
 

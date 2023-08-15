@@ -22,5 +22,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
         Task<bool> ExistRecipeAsync(int id);
 
         Task<RecipeDetailsModel> RecipeDetailsByIdAsync(int id);
+
+        Task DeleteAsync(int id);
     }
 }
