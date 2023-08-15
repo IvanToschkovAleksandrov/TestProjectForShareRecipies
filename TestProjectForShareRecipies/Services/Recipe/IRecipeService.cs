@@ -18,5 +18,9 @@ namespace TestProjectForShareRecipies.Services.Recipe
             RecipeSorting sorting = RecipeSorting.Newest,
             int CurrentPage = 1,
             int RecipePerPage = 1);
+
+        Task<bool> ExistRecipeAsync(int id);
+
+        Task<RecipeDetailsModel> RecipeDetailsByIdAsync(int id);
     }
 }

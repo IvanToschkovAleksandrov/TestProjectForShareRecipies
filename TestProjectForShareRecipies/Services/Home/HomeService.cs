@@ -19,6 +19,7 @@ namespace TestProjectForShareRecipies.Services.Home
                 .OrderByDescending(r => r.Id)
                 .Select(r => new RecipeIndexModel()
                 {
+                    Id = r.Id,
                     Name = r.Name,
                     Picture = r.Picture,
                     CategoryId = r.CategoryId

@@ -35,11 +35,18 @@ namespace TestProjectForShareRecipies.Controllers
             return View(query);
         }
 
-        //public async Task<IActionResult> Details(int recipeId)
-        //{
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            if (!(await recipeService.ExistRecipeAsync(id)))
+            {
+                return BadRequest();
+            }
 
-        //    return View();
-        //}
+            var model = await recipeService.RecipeDetailsByIdAsync(id);
+
+            return View(model);
+        }
 
         [HttpGet]
         public async Task<IActionResult> AddRecipe()

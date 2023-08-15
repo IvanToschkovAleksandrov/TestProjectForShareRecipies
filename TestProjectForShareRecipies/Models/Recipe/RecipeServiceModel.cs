@@ -12,7 +12,5 @@ namespace TestProjectForShareRecipies.Models.Recipe
         public string Picture { get; set; } = null!;
 
         public string? Description { get; set; }
-
-        //Category, Ingredients, Author maybe must to added!!!
     }
 }

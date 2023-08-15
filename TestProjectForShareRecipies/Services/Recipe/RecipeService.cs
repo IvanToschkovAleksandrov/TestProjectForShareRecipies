@@ -139,5 +139,42 @@ namespace TestProjectForShareRecipies.Services.Recipe
             await context.Recipes.AddAsync(recipe);
             await context.SaveChangesAsync();
         }
+
+        public async Task<bool> ExistRecipeAsync(int id)
+        {
+            return await context.Recipes.AnyAsync(r => r.Id == id);
+        }
+
+        public async Task<RecipeDetailsModel> RecipeDetailsByIdAsync(int id)
+        {
+            var model = await context.Recipes
+                .Where(r => r.Id == id)
+                .Select(r => new RecipeDetailsModel()
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    Picture = r.Picture,
+                    Description = r.Desctiption,
+                    Author = string.Join(" ", new[] { r.Author.FirstName, r.Author.LastName } ),
+
+                    //Can we just create here a new IngredientDetailsModel :
+                    //Ingredients = new IngredientDetailsModel()
+                    //  {
+                    //      Name = r.Ingredients.Name,
+                    //      Quantity = r.Ingredients.Quantity,
+                    //      MeassureUnitId = r.Ingredients.MeassureUnitId
+                    //  }
+
+                    Ingredients = r.Ingredients.Select(i => new IngredientDetailsModel()
+                    {
+                        Name = i.Name,
+                        Quantity = i.Quantity,
+                        MeassureUnit = i.MeassureUnit.Name,
+                    })
+
+                })
+                .FirstAsync();
+            return model;
+        }
     }
 }
