@@ -11,6 +11,7 @@
     <div class="row">
         <div class="col-4">
             <img class="card-img-top" style="width: 20rem;" src="@Model.Picture" alt="Recipe Picture" />
+            <p class="card-text align-text-top"><b>Rating: @Math.Round(Model.AverrageRating, 2)</b></p>
         </div>
         <div class="card col-8 border-0">
             <p style="font-size: 25px;"><u>@Model.Name</u></p>

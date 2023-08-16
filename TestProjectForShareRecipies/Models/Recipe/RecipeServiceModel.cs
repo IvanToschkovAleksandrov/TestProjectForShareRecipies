@@ -12,5 +12,7 @@ namespace TestProjectForShareRecipies.Models.Recipe
         public string Picture { get; set; } = null!;
 
         public string? Description { get; set; }
+
+        public double AverageRating { get; set; }
     }
 }

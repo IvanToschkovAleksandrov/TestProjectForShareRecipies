@@ -4,6 +4,6 @@
     {
         Alphabetically,
         Newest,
-        //MostRated
+        MostRated
     }
 }

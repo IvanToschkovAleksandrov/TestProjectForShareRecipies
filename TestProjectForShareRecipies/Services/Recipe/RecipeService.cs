@@ -67,13 +67,15 @@ namespace TestProjectForShareRecipies.Services.Recipe
                     .Where(r => r.Name.ToLower().Contains(searchTerm.ToLower()));
             }
 
-            recipesQuery = sorting switch
+            var sortedRecipesQuery = sorting switch
             {
                 RecipeSorting.Alphabetically => recipesQuery.OrderBy(r => r.Name),
-                _=> recipesQuery.OrderByDescending(r => r.Id)
+                RecipeSorting.MostRated => recipesQuery.OrderByDescending(r => r.Ratings.Average(rt => rt.Value)),
+                _ => recipesQuery.OrderByDescending(r => r.Id)
             };
 
-            var recipes = await recipesQuery
+            var pagedRecipes = await sortedRecipesQuery
+                .Include(r => r.Ratings)
                 .Skip((currentPage - 1) * recipePerPage)
                 .Take(recipePerPage)
                 .Select(r => new RecipeServiceModel()
@@ -81,15 +83,16 @@ namespace TestProjectForShareRecipies.Services.Recipe
                     Id = r.Id,
                     Name = r.Name,
                     Description = r.Description,
-                    Picture = r.Picture
+                    Picture = r.Picture,
+                    AverageRating = r.Ratings.Any() ? r.Ratings.Average(rt => rt.Value) : 0
                 })
                 .ToListAsync();
-            
-            int totalRecipes = recipesQuery.Count();
+
+            int totalRecipes = await recipesQuery.CountAsync();
 
             return new RecipeQueryServiceModel()
             {
-                Recipes = recipes,
+                Recipes = pagedRecipes,
                 TotalRecipesCount = totalRecipes
             };
 
@@ -157,6 +160,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
         {
             var model = await context.Recipes
                 .Where(r => r.Id == id)
+                .Include(r => r.Ratings)
                 .Select(r => new RecipeDetailsModel()
                 {
                     Id = r.Id,
@@ -165,6 +169,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
                     Description = r.Description,
                     Author = string.Join(" ", new[] { r.Author.FirstName, r.Author.LastName } ),
                     Category = r.Category.Name,
+                    AverrageRating = r.AverageRating,
 
                     //Can we just create here a new IngredientDetailsModel :
                     //Ingredients = new IngredientDetailsModel()

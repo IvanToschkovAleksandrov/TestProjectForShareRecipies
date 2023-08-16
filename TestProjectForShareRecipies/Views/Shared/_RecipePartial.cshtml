@@ -4,7 +4,7 @@
     <div class="card mb-3">
         <img class="card-img-top" src="@Model.Picture" alt="Recipe Image" />
         <div class="card-body text-center">
-            <h4>@Model.Name</h4>
+            <h4>@Model.Name - <span>Rating: @Math.Round(Model.AverageRating, 2)</span></h4>
             <h6><b>@Model.Description</b></h6>
             <a asp-controller="Recipe" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
             

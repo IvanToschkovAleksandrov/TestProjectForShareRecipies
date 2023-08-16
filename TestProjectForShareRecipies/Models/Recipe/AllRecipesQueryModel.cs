@@ -18,6 +18,8 @@ namespace TestProjectForShareRecipies.Models.Recipe
 
         public int TotalRecipesCount { get; set; }
 
+        public double AverageRating { get; set; } 
+
         public IEnumerable<string> Categories { get; set; } = new List<string>();
 
         public IEnumerable<RecipeServiceModel> Recipes { get; set; } = new List<RecipeServiceModel>();
