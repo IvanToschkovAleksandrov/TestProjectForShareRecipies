@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static TestProjectForShareRecipies.Data.DataConstants;
@@ -17,7 +18,20 @@ namespace TestProjectForShareRecipies.Data.Entities
         [Required]
         public string Picture { get; set; } = null!;
 
-        public string? Desctiption { get; set; }
+        public string? Description { get; set; }
+
+        public double AverageRating 
+        {
+            get 
+            {
+                if (Ratings != null && Ratings.Count > 0)
+                {
+                    return Ratings.Average(rating => rating.Value);
+                }
+
+                return 0;
+            }
+        }
 
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
@@ -33,5 +47,7 @@ namespace TestProjectForShareRecipies.Data.Entities
         public string AuthorId { get; set; } = null!;
         [Required]
         public ApplicationUser Author { get; set; } = null!;
+
+        public List<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

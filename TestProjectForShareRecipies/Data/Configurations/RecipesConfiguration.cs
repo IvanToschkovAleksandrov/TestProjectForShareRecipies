@@ -21,7 +21,7 @@ namespace TestProjectForShareRecipies.Data.Configurations
                 Name = "Chicken Soup",
                 CategoryId = 5,
                 AuthorId = "162bb2c2-b78b-4a43-9318-271e17ebd9b4",
-                Desctiption = "This chicken vegetable soup is so easy to make by cooking everything in one pot using a few ingredients that take less than one hour, making it perfect for busy midweek dinners.",
+                Description = "This chicken vegetable soup is so easy to make by cooking everything in one pot using a few ingredients that take less than one hour, making it perfect for busy midweek dinners.",
                 Picture = "https://comfortablefood.com/wp-content/uploads/2022/08/Chicken-vegetable-soup-11-1440x1440.jpg"
             };
 
@@ -33,7 +33,7 @@ namespace TestProjectForShareRecipies.Data.Configurations
                 Name = "Lentil Potato Soup",
                 AuthorId = "162bb2c2-b78b-4a43-9318-271e17ebd9b4",
                 CategoryId = 5,
-                Desctiption = "Lentil potato soup does not require much cooking equipment to prepare this dish, just a large pot for cooking the ingredients and a chopping board.",
+                Description = "Lentil potato soup does not require much cooking equipment to prepare this dish, just a large pot for cooking the ingredients and a chopping board.",
                 Picture = "https://comfortablefood.com/wp-content/uploads/2021/11/featured-lentil-potato-soup.jpg"
             };
 

@@ -7,10 +7,12 @@
             <h4>@Model.Name</h4>
             <h6><b>@Model.Description</b></h6>
             <a asp-controller="Recipe" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+            
             @if (this.User.Identity.IsAuthenticated)
             {
+                <a asp-controller="Rating" asp-action="Add" asp-route-id="@Model.Id" class="btn btn-success">Rate it!</a>
                 <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                    <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
             }
         </div>
     </div>

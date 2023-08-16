@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestProjectForShareRecipies.Data;
 
@@ -11,9 +12,10 @@ using TestProjectForShareRecipies.Data;
 namespace TestProjectForShareRecipies.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230815235919_adding rating system")]
+    partial class addingratingsystem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +54,7 @@ namespace TestProjectForShareRecipies.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "3a2bfc8d-a711-414a-8ea0-12c99fc93de4",
+                            ConcurrencyStamp = "d4aaa5c0-12d3-4be2-ba38-b710d9d4f96e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -254,7 +256,7 @@ namespace TestProjectForShareRecipies.Data.Migrations
                         {
                             Id = "162bb2c2-b78b-4a43-9318-271e17ebd9b4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c3cfb2ba-a685-4c0a-ac67-642b5c7297d7",
+                            ConcurrencyStamp = "975b89c8-b0ec-4736-98ee-1b5775af2d7d",
                             Email = "ivan.aleksandrov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Ivan",
@@ -262,9 +264,9 @@ namespace TestProjectForShareRecipies.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "IVAN.ALEKSANDROV@GMAIL.COM",
                             NormalizedUserName = "IVAN.ALEKSANDROV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP8Gn6WPi0b/fVcIrUvPF0dJFt1pdzaKsPocZRB7ecGrmFGA43JTedx1vqix9sy6Rw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMK6bDaRJCTHkAoWSWgQtqifSYU7UQBcAcD+HslU2UiskgsaC+ui7kBowSlNHpdnCw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "113410d9-75a1-452b-9831-da5f2be97473",
+                            SecurityStamp = "4196310d-fe8e-478e-9a40-8adafe20e778",
                             TwoFactorEnabled = false,
                             UserName = "ivan.aleksandrov@gmail.com"
                         },
@@ -272,7 +274,7 @@ namespace TestProjectForShareRecipies.Data.Migrations
                         {
                             Id = "d5ab93a3-c7cf-4328-80f4-705121dfe864",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d1c27a3-45c3-4aad-9eae-4d22e7f3cfc5",
+                            ConcurrencyStamp = "a2000826-6464-40eb-9878-ad9d434c6cdb",
                             Email = "petar.petrov@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Petar",
@@ -280,9 +282,9 @@ namespace TestProjectForShareRecipies.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "PETAR.PETROV@GMAIL.COM",
                             NormalizedUserName = "PETAR.PETROV@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFhlN7r863ZcQxiC/Y+wIjpHVvfk6PZCHoALPeVYIATKLHy1JvpSj3gg7/DtDngh2Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAPxmimr6iCGKSQGnr8zTSGpZqcGlVTWatSR48Nhesgb7+1EWmvg6HGfO9PnCK8Jtg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a566ec83-67da-4f60-a847-7eff1dfe162f",
+                            SecurityStamp = "cd2d392f-5ec9-4567-8db2-24bbbb54e1df",
                             TwoFactorEnabled = false,
                             UserName = "petar.petrov@gmail.com"
                         });
@@ -564,7 +566,7 @@ namespace TestProjectForShareRecipies.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Desctiption")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -590,7 +592,7 @@ namespace TestProjectForShareRecipies.Data.Migrations
                             Id = 1,
                             AuthorId = "162bb2c2-b78b-4a43-9318-271e17ebd9b4",
                             CategoryId = 5,
-                            Description = "This chicken vegetable soup is so easy to make by cooking everything in one pot using a few ingredients that take less than one hour, making it perfect for busy midweek dinners.",
+                            Desctiption = "This chicken vegetable soup is so easy to make by cooking everything in one pot using a few ingredients that take less than one hour, making it perfect for busy midweek dinners.",
                             Name = "Chicken Soup",
                             Picture = "https://comfortablefood.com/wp-content/uploads/2022/08/Chicken-vegetable-soup-11-1440x1440.jpg"
                         },
@@ -599,7 +601,7 @@ namespace TestProjectForShareRecipies.Data.Migrations
                             Id = 2,
                             AuthorId = "162bb2c2-b78b-4a43-9318-271e17ebd9b4",
                             CategoryId = 5,
-                            Description = "Lentil potato soup does not require much cooking equipment to prepare this dish, just a large pot for cooking the ingredients and a chopping board.",
+                            Desctiption = "Lentil potato soup does not require much cooking equipment to prepare this dish, just a large pot for cooking the ingredients and a chopping board.",
                             Name = "Lentil Potato Soup",
                             Picture = "https://comfortablefood.com/wp-content/uploads/2021/11/featured-lentil-potato-soup.jpg"
                         });

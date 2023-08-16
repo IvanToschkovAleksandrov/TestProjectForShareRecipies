@@ -18,6 +18,7 @@ namespace TestProjectForShareRecipies.Data
         public DbSet<Ingredient> Ingredients { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<MeassureUnit> MeassureUnits { get; set; } = null!;
+        public DbSet<Rating> Ratings { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,6 +30,11 @@ namespace TestProjectForShareRecipies.Data
             builder.ApplyConfiguration(new RecipesConfiguration());
             builder.ApplyConfiguration(new IngredientConfiguration());
 
+            builder.Entity<Rating>()
+                .HasOne(r => r.Recipe)
+                .WithMany(recipe => recipe.Ratings)
+                .HasForeignKey(r => r.RecipeId)
+                .OnDelete(DeleteBehavior.Restrict);
             
             base.OnModelCreating(builder);
         }

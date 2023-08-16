@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using TestProjectForShareRecipies.Data;
 using TestProjectForShareRecipies.Data.Entities;
 using TestProjectForShareRecipies.Services.Home;
+using TestProjectForShareRecipies.Services.Rating;
 using TestProjectForShareRecipies.Services.Recipe;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
+builder.Services.AddScoped<IRatingService, RatingService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {

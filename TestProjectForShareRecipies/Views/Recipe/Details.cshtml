@@ -24,6 +24,7 @@
             <div class="form-inline">
                 @if (User.Identity.IsAuthenticated)
                 {
+                    <a class="btn btn-success" asp-controller="Rating" asp-action="Add" asp-route-id="@Model.Id">Rate it!</a>
                     <a class="btn btn-warning" asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
                     <a class="btn btn-danger" asp-controller="Recipe" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
                 }

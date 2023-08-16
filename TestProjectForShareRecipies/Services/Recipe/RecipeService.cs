@@ -80,7 +80,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
                 {
                     Id = r.Id,
                     Name = r.Name,
-                    Description = r.Desctiption,
+                    Description = r.Description,
                     Picture = r.Picture
                 })
                 .ToListAsync();
@@ -101,7 +101,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
             {
                 Name = model.Name,
                 Picture = model.Picture,
-                Desctiption = model.Description,
+                Description = model.Description,
                 CategoryId = model.CategoryId,
                 AuthorId = model.AuthorId,
                 Ingredients = await DeserializeIngredientsStringAsync(model.Ingredients)
@@ -129,7 +129,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
 
             recipe.Name = model.Name;
             recipe.Picture = model.Picture;
-            recipe.Desctiption = model.Description;
+            recipe.Description = model.Description;
             recipe.CategoryId = model.CategoryId;
             recipe.Ingredients = await DeserializeIngredientsStringAsync(model.Ingredients);
 
@@ -162,7 +162,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
                     Id = r.Id,
                     Name = r.Name,
                     Picture = r.Picture,
-                    Description = r.Desctiption,
+                    Description = r.Description,
                     Author = string.Join(" ", new[] { r.Author.FirstName, r.Author.LastName } ),
                     Category = r.Category.Name,
 

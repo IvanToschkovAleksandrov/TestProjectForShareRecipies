@@ -13,5 +13,7 @@ namespace TestProjectForShareRecipies.Data.Entities
         [Required]
         [StringLength(UserNameMaxLength)]
         public string LastName { get; set; } = null!;
+
+        public IEnumerable<Rating> Ratings { get; set; } = new List<Rating>();
     }
 }

@@ -37,6 +37,7 @@ namespace TestProjectForShareRecipies.Controllers
             return View(query);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
