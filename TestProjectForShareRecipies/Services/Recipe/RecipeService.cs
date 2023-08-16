@@ -4,6 +4,7 @@ using System.Data;
 using System.Text.RegularExpressions;
 using TestProjectForShareRecipies.Data;
 using TestProjectForShareRecipies.Data.Entities;
+using TestProjectForShareRecipies.Models.Rating;
 using TestProjectForShareRecipies.Models.Recipe;
 
 namespace TestProjectForShareRecipies.Services.Recipe
@@ -170,15 +171,13 @@ namespace TestProjectForShareRecipies.Services.Recipe
                     Author = string.Join(" ", new[] { r.Author.FirstName, r.Author.LastName } ),
                     Category = r.Category.Name,
                     AverrageRating = r.AverageRating,
-
-                    //Can we just create here a new IngredientDetailsModel :
-                    //Ingredients = new IngredientDetailsModel()
-                    //  {
-                    //      Name = r.Ingredients.Name,
-                    //      Quantity = r.Ingredients.Quantity,
-                    //      MeassureUnitId = r.Ingredients.MeassureUnitId
-                    //  }
-
+                    Ratings = r.Ratings.Select(rt => new RatingsDetailsModel
+                    {
+                        Value = rt.Value,
+                        Author = String.Join(" ", new[] {rt.User.FirstName, rt.User.LastName}),
+                        Comment = rt.Comment ?? String.Empty,
+                        CreateDate = rt.Timestamp
+                    }),
                     Ingredients = r.Ingredients.Select(i => new IngredientDetailsModel()
                     {
                         Name = i.Name,

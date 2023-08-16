@@ -12,6 +12,14 @@
         <div class="col-4">
             <img class="card-img-top" style="width: 20rem;" src="@Model.Picture" alt="Recipe Picture" />
             <p class="card-text align-text-top"><b>Rating: @Math.Round(Model.AverrageRating, 2)</b></p>
+            <ul class="list-group" id="ratings-container">
+                @foreach (var rating in Model.Ratings) {
+                        <li class="list-group-item">
+                                <b>@rating.Value by @rating.Author on @rating.CreateDate</b>
+                                <p>@rating.Comment</p>
+                            </li>   
+                }
+            </ul>
         </div>
         <div class="card col-8 border-0">
             <p style="font-size: 25px;"><u>@Model.Name</u></p>
