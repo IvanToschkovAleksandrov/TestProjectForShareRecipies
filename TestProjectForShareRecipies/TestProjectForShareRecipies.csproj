@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\HomeAdmin\" />
+    <Folder Include="Areas\Admin\Models\Home\" />
   </ItemGroup>
 
   <ItemGroup>

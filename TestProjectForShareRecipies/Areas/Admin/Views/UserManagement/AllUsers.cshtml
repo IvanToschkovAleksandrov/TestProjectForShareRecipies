@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AllUsersViewModel>
+
+@{
+    ViewBag.Title = "All users of the Application";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr /> 
+
+<ol class="list-group list-group-numbered">
+    
+    @foreach (var user in Model) 
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                    @user.FirstName @user.LastName - Email: @user.Email
+                </div>
+                All ratings made from the user: @user.RatingsCount
+                    <a class="btn btn-outline-success" 
+                    asp-area="Admin" 
+                    asp-controller="UserManagement" 
+                    asp-action="UserDetails" 
+                    asp-route-id="@user.Id">Show user's info</a>
+            </div>
+            <span class="badge bg-primary rounded-pill">Recipes: @user.RecipesCount</span>
+        </li>
+    }
+  
+</ol>
