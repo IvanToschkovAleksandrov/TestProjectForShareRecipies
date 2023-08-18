@@ -38,7 +38,10 @@ namespace TestProjectForShareRecipies.Areas.Admin.Services.UserManagement
 
         public async Task<UserDetailsModel> GetUserDetailsAsync(string userId)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await context.Users
+                .Include(u => u.Ratings)
+                .Include(u => u.Recipes)
+                .FirstAsync(u => u.Id == userId);
 
             if (user == null)
             {
@@ -60,6 +63,7 @@ namespace TestProjectForShareRecipies.Areas.Admin.Services.UserManagement
                 .ToList(),
                 Recipes = user.Recipes.Select(r => new RecipeDetailsModel()
                 {
+                    Id = r.Id,
                     Name = r.Name,
                     Description = r.Description ?? String.Empty,
                     Picture = r.Picture,
@@ -70,5 +74,6 @@ namespace TestProjectForShareRecipies.Areas.Admin.Services.UserManagement
 
             return modelUser;
         }
+
     }
 }

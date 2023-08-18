@@ -9,13 +9,16 @@ namespace TestProjectForShareRecipies.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
 
         [HttpGet]
@@ -45,9 +48,17 @@ namespace TestProjectForShareRecipies.Controllers
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
+
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, isPersistent: false);
+
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                await userManager.AddToRoleAsync(user, "User");
                 return RedirectToAction("Index", "Home");
             }
 

@@ -19,6 +19,11 @@ namespace TestProjectForShareRecipies.Data.Configurations
                 {
                     UserId = "162bb2c2-b78b-4a43-9318-271e17ebd9b4",
                     RoleId = "1"
+                },
+                new IdentityUserRole<string>()
+                {
+                    UserId = "d5ab93a3-c7cf-4328-80f4-705121dfe864",
+                    RoleId = "2"
                 }
             };
         }
