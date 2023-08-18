@@ -65,7 +65,12 @@ namespace TestProjectForShareRecipies.Services.Recipe
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 recipesQuery = context.Recipes
-                    .Where(r => r.Name.ToLower().Contains(searchTerm.ToLower()));
+                    .Include(r => r.Ingredients)
+                    .Where(r => r.Name.ToLower().Contains(searchTerm.ToLower())
+                    || (r.Description != null && r.Description.ToLower().Contains(searchTerm.ToLower()))
+                    || r.Author.FirstName.ToLower().Contains(searchTerm.ToLower())
+                    || r.Author.LastName.ToLower().Contains(searchTerm.ToLower())
+                    || r.Ingredients.Any(i => i.Name.ToLower().Contains(searchTerm.ToLower())));
             }
 
             var sortedRecipesQuery = sorting switch
