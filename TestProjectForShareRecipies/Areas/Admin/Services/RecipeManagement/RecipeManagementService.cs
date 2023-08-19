@@ -33,6 +33,11 @@ namespace TestProjectForShareRecipies.Areas.Admin.Services.RecipeManagement
         {
             var recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == recipeId);
 
+            if (recipe == null)
+            {
+                throw new NullReferenceException("Sorry but the author is unknown beacause of this recipe is no longer in a database.");
+            }
+
             return recipe.AuthorId;
         }
     }

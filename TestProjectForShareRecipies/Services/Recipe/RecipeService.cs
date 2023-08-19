@@ -198,6 +198,7 @@ namespace TestProjectForShareRecipies.Services.Recipe
         private async Task<List<Ingredient>> DeserializeIngredientsStringAsync(string jsonIngredients)
         {
             var ingredients = new List<Ingredient>();
+
             string[] modelIngredients = JsonConvert.DeserializeObject<string[]>(jsonIngredients);
 
             foreach (string ingredientAsString in modelIngredients)

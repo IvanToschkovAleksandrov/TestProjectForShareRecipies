@@ -9,18 +9,30 @@
     <hr />
     <p style="font-size: 18px"><b>@Model.FirstName @Model.LastName - Email: @Model.Email</b></p>
     @if (!Model.Roles.Any()) {
-            <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="UserManagement" asp-action="RemoveAdminRole" asp-route-id="@Model.Id">Make it user!</a>
+            <a class="btn btn-danger btn-sm" 
+            asp-area="Admin" 
+            asp-controller="UserManagement" 
+            asp-action="RemoveAdminRole" 
+            asp-route-id="@Model.Id">Make it user!</a>
     }
     @foreach (var role in Model.Roles)
     {
         <p><b>User has a role: @role</b></p>
         @if (role == "Admin")
         {
-                     <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="UserManagement" asp-action="RemoveAdminRole" asp-route-id="@Model.Id">Switch to user!</a>
+                     <a class="btn btn-danger btn-sm" 
+                     asp-area="Admin" 
+                     asp-controller="UserManagement" 
+                     asp-action="RemoveAdminRole" 
+                     asp-route-id="@Model.Id">Switch to user!</a>
         }
         else 
         {
-             <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="UserManagement" asp-action="AddAdminRole" asp-route-id="@Model.Id">Switch to admin!</a>
+             <a class="btn btn-danger btn-sm" 
+             asp-area="Admin" 
+             asp-controller="UserManagement" 
+             asp-action="AddAdminRole" 
+             asp-route-id="@Model.Id">Switch to admin!</a>
         }
         
     }
@@ -41,7 +53,11 @@
               <div class="card col-8">
                     <p style="font-size: 18px;"><u>@recipe.Name</u></p>
                     <p>Rating: <b>@recipe.Rating</b></p>
-                    <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="RecipeManagement" asp-action="DeleteRecipe" asp-route-id="@recipe.Id">Delete Recipe</a>
+                    <a class="btn btn-danger btn-sm" 
+                    asp-area="Admin" 
+                    asp-controller="RecipeManagement" 
+                    asp-action="DeleteRecipe" 
+                    asp-route-id="@recipe.Id">Delete Recipe</a>
               </div>
           </div>
         </div>
@@ -51,13 +67,13 @@
       <div class="continer">
           <div class="row">
               <div class="col-4">
-                  
+
               </div>
           </div>
       </div>
     </div>
     <div class="col">
-      User's Ratings
+      
     </div>
   </div>
 </div>
