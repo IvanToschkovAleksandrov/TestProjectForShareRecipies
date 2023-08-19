@@ -22,6 +22,8 @@
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Models\Home\" />
+    <Folder Include="Areas\Admin\Models\RecipeManagement\" />
+    <Folder Include="Areas\Admin\Views\RecipeManagement\" />
   </ItemGroup>
 
   <ItemGroup>

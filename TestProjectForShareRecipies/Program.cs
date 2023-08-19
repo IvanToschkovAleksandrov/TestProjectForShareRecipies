@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using TestProjectForShareRecipies.Areas.Admin.Services.RecipeManagement;
 using TestProjectForShareRecipies.Areas.Admin.Services.UserManagement;
 using TestProjectForShareRecipies.Data;
 using TestProjectForShareRecipies.Data.Entities;
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IRecipeService, RecipeService>();
 builder.Services.AddScoped<IHomeService, HomeService>();
 builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
+builder.Services.AddScoped<IRecipeManagementService, RecipeManagementService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
