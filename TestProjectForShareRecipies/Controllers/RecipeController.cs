@@ -69,6 +69,9 @@ namespace TestProjectForShareRecipies.Controllers
             
             if (!ModelState.IsValid)
             {
+                model.Categories = await recipeService.AllCategoriesAsync();
+                model.MeassureUnits = await recipeService.AllMeassureUnitsAsync();
+                model.AuthorId = User.Id();
                 return View(model);
             }
 

@@ -35,11 +35,14 @@
                 <span asp-validation-for="CategoryId" class="small text-danger"></span>
             </div>
             <input type="hidden" asp-for="AuthorId" />
+
             <!--TODO: Here we must to add dinamic field for ingredients-->
+
             <input type="hidden" asp-for="Ingredients" id="Ingredients" />
             <div id="ingredientsContainer">
                 <h5>
                     Ingredients:
+                    <span asp-validation-for="Ingredients" class="small text-danger"></span>
                 </h5>
                 <ul id="ingredient-list" class="list-group list-group-flush">
                     
