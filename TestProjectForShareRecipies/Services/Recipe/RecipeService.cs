@@ -122,10 +122,11 @@ namespace TestProjectForShareRecipies.Services.Recipe
 
         public async Task DeleteAsync(int id)
         {
-            var recipe = await context.Recipes.FirstOrDefaultAsync(r => r.Id == id);
+            var recipe = await context.Recipes.Include(r => r.Ratings).FirstOrDefaultAsync(r => r.Id == id);
 
             if(recipe != null)
             {
+                context.Ratings.RemoveRange(recipe.Ratings);
                 context.Recipes.Remove(recipe);
                 await context.SaveChangesAsync();
             }
@@ -134,13 +135,15 @@ namespace TestProjectForShareRecipies.Services.Recipe
 
         public async Task EditRecipeAsync(RecipeFormModel model, int id)
         {
+            var modelIngredients = await DeserializeIngredientsStringAsync(model.Ingredients);
+
             var recipe = await context.Recipes.FirstAsync(r => r.Id == id);
 
             recipe.Name = model.Name;
             recipe.Picture = model.Picture;
             recipe.Description = model.Description;
             recipe.CategoryId = model.CategoryId;
-            recipe.Ingredients = await DeserializeIngredientsStringAsync(model.Ingredients);
+            recipe.Ingredients = modelIngredients;
 
             await context.SaveChangesAsync();
         }
